@@ -28,6 +28,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -174,6 +176,11 @@ public class MapsActivity extends BaseActivity implements ItemizedLayer.OnItemGe
         if (intent != null) {
             onNewIntent(intent);
         }
+    }
+
+    //Displays a toast message with the specified message.
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void switchFullscreen() {
@@ -795,6 +802,15 @@ public class MapsActivity extends BaseActivity implements ItemizedLayer.OnItemGe
 
         mapPreferences.load(map);
         binding.map.mapView.onResume();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showNotification = sharedPreferences.getBoolean(getString(R.string.SHOW_NOTIFICATION_FRIEND), true);
+
+        if (showNotification) {
+            //logic for sending notification
+            // Assume Friend Annie is in the same resort and the notifications are enabled, then make an toast message
+            Toast.makeText(getApplicationContext(), "Your friend Annie is in the same resort!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -871,3 +887,4 @@ public class MapsActivity extends BaseActivity implements ItemizedLayer.OnItemGe
     }
 
 }
+
